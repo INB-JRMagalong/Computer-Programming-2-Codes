@@ -1,0 +1,128 @@
+#include <iostream>
+#include <string>
+using namespace std;
+
+struct Student 
+{
+    Student* next = NULL;
+    Student* prev = NULL;
+    string studentFirstName, studentLastName, studentSection, studentCourse;
+    int studentYear = 0;
+};
+
+void MainMenu(int & choice);
+Student* AddStudentInfo(Student* &head, Student* &tail);
+void CheckStudentInfo(Student* head);
+
+int main() 
+{
+    int choice, studentCounter = 0;
+    Student* head = NULL;
+    Student* tail = NULL;
+    
+    do {
+        system("cls");
+        
+        MainMenu(choice);
+        
+        switch(choice) 
+		{
+            case 1:
+                cout << "****************************************\n"
+         			 << "\t\tADD STUDENT\n"
+         			 << "****************************************\n";
+                if(studentCounter > 0) {
+                    tail->next = AddStudentInfo(head, tail);
+                    tail = tail->next;
+                } else {
+                    head = AddStudentInfo(head, tail);
+                }
+                studentCounter++;
+                break;
+            case 2:
+                cout << "========================================\n"
+         			 << "\t\tCHECK STUDENT INFO\n"
+         			 << "========================================\n";
+         		CheckStudentInfo(head);
+                break;
+            case 3:
+                cout << "========================================\n"
+         			 << "\t\tUPDATE STUDENT INFO\n"
+         			 << "========================================\n";
+                break;
+            case 4:
+                cout << "========================================\n"
+         			 << "\t\tDELETE STUDENT INFO\n"
+         			 << "========================================\n";
+                break;
+            case 5:
+                return 0;
+            default:
+                cout << "Invalid choice. Please try again." << endl;
+                break;
+        }
+        system("pause");
+    } while(true);
+    return 0;
+}
+
+void MainMenu(int & choice) 
+{
+    cout << "****************************************\n"
+         << "\t\tSTUDENT DATABASE\n"
+         << "****************************************\n"
+         << "[1] Add New Student\n"
+         << "[2] Check Student Info\n"
+         << "[3] Update Student Info\n"
+         << "[4] Delete Student Info\n"
+         << "[5] Exit\n"
+         << ">> ";
+    cin >> choice;
+    system("cls");
+}
+
+Student* AddStudentInfo(Student* &head, Student* &tail) 
+{
+    Student* tempStudent = new Student;
+    cout << "Student First Name: ";
+    cin >> tempStudent->studentFirstName;
+    cout << "Student Last Name: ";
+    cin >> tempStudent->studentLastName;
+    cout << "Student Year: ";
+    cin >> tempStudent->studentYear;
+    cout << "Student Section: ";
+    cin >> tempStudent->studentSection;
+    cout << "Student Course: ";
+    cin >> tempStudent->studentCourse;
+
+    tempStudent->next = NULL;
+    tempStudent->prev = tail;
+
+    if (tail != NULL) 
+	{
+        tail->next = tempStudent;
+    }
+    
+    tail = tempStudent;
+
+    if (head == NULL) 
+	{
+        head = tempStudent;
+    }
+    
+    return tempStudent;
+}
+
+
+void CheckStudentInfo(Student* head) 
+{
+    Student* temp = head;
+    while(temp != NULL) 
+    {
+        cout << "Student Name: " << temp->studentFirstName << " " << temp->studentLastName 
+             << ", Year: " << temp->studentYear 
+             << ", Section: " << temp->studentSection 
+             << ", Course: " << temp->studentCourse << endl;
+        temp = temp->next;
+    }
+}
